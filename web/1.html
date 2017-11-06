@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/resource/js/jquery1.11.1.js" type="text/javascript"></script>
+    <script src="/resource/js/app.js" type="text/javascript"></script>
+</head>
+<body>
+<div>
+    <form id="loginForm">
+        <input type="text" name="username" placeholder="input user name">
+        <input type="password"  name="password" placeholder="input user password">
+        <button type="submit" id="login">登录</button>
+    </form>
+
+</div>
+<div>
+    <textarea cols="5" rows="5" id="content" style="width: 200px"></textarea>
+    <button id="send">发送</button>
+</div>
+<script>
+    $(function () {
+        app.event("#loginForm","submit",function (e) {
+            app.ajax("/api/login",$("#loginForm").serialize(),function (e) {
+                alert(e.info);
+                if (e.code == 1){
+                    app.local.set("token",e.data.token);
+                }
+            }).post();
+            return false;
+        });
+
+        app.event("#send","click",function () {
+            app.ajax("/api/send",{info:$("#content").val()},function (e) {
+                alert("发送成功");
+            }).post()
+        })
+    })
+</script>
+<script>
+    var host = "localhost:8080";
+    var websocket;
+
+    websocket = new WebSocket("ws://"+host+"/notifyServer?token="+app.local.get("token"));
+    websocket.onopen = function(evnt) {
+        console.log("websocket连接上");
+    };
+    websocket.onmessage = function(evnt) {
+        console.log("收到消息:",evnt.data);
+    };
+    websocket.onerror = function(evnt) {
+        console.log(evnt);
+        console.log("websocket错误");
+    };
+    websocket.onclose = function(evnt) {
+        console.log("websocket关闭");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mymvc.repository.mybatis.mapper.UserMapper" >
+
+  <resultMap id="BaseResultMap" type="com.mymvc.model.UserModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="login_password" property="loginPassword" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="idno" property="idno" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+
+
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id,username,login_password,age,mobile,email
+  </sql>
+
+  <select id="getAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from lx_user
+    where 1
+    ORDER BY id DESC
+  </select>
+
+  <select id="getRowById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from lx_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <insert id="save" parameterType="com.mymvc.model.UserModel">
+      insert into lx_user
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="username != null" >
+          username,
+        </if>
+        <if test="loginPassword != null" >
+          login_password,
+        </if>
+        <if test="age != null" >
+          age,
+        </if>
+        <if test="email != null" >
+          email,
+        </if>
+        <if test="mobile != null" >
+          mobile,
+        </if>
+        <if test="sex != null" >
+          sex,
+        </if>
+        <if test="createTime != null" >
+          create_time,
+        </if>
+      </trim>
+
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="username != null" >
+           #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="loginPassword != null" >
+          #{loginPassword,jdbcType=VARCHAR},
+        </if>
+        <if test="age != null" >
+          #{age,jdbcType=INTEGER},
+        </if>
+        <if test="email != null" >
+          #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="mobile != null" >
+          #{mobile,jdbcType=VARCHAR},
+        </if>
+        <if test="sex != null" >
+          #{sex,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+          #{createTime,jdbcType=INTEGER},
+        </if>
+      </trim>
+  </insert>
+
+</mapper>
