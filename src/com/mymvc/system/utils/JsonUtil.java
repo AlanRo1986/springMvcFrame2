@@ -13,6 +13,12 @@ import java.util.Map;
 public class JsonUtil {
     public JsonUtil(){
     }
+
+    public static <T> T JsonToObject(String json,Class<T> classz){
+        Gson gson = new Gson();
+        return gson.fromJson(json,classz);
+    }
+
     public static Map<String,Object> JsonToMap(String json){
         GsonBuilder gb = new GsonBuilder();
         Gson g = gb.create();

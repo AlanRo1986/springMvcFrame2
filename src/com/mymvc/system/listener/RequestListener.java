@@ -1,5 +1,6 @@
 package com.mymvc.system.listener;
 
+import com.mymvc.constant.Constant;
 import com.mymvc.system.basic.CompactProvider;
 import com.mymvc.system.core.Application;
 import com.mymvc.system.exception.IllegalServiceException;
@@ -7,6 +8,7 @@ import com.mymvc.system.provider.basic.IRequest;
 import com.mymvc.system.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
@@ -267,6 +269,10 @@ public class RequestListener extends CompactProvider implements IRequest {
         //zh_CN
         if (get(locale) != null){
             return get(locale);
+        }
+
+        if (StringUtils.isEmpty(request.getLocale().getLanguage()) && StringUtils.isEmpty(request.getLocale().getCountry())){
+            return Constant.defaultLocale;
         }
 
         return request.getLocale().getLanguage() + "_" + request.getLocale().getCountry();

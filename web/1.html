@@ -18,6 +18,7 @@
 <div>
     <textarea cols="5" rows="5" id="content" style="width: 200px"></textarea>
     <button id="send">发送</button>
+    <button id="send2">发送2</button>
 </div>
 <script>
     $(function () {
@@ -35,6 +36,19 @@
             app.ajax("/api/send",{info:$("#content").val()},function (e) {
                 alert("发送成功");
             }).post()
+        })
+        app.event("#send2","click",function () {
+            var i = 0;
+            for(;;){
+                if(i > 100){
+                    break;
+                }
+                i++;
+                app.ajax("/api/send2",{info:$("#content").val()},function (e) {
+                    //alert("发送成功");
+                }).post()
+            }
+
         })
     })
 </script>

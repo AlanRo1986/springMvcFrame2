@@ -46,5 +46,6 @@
     <orderEntry type="library" name="commons-dbcp:commons-dbcp:1.4" level="project" />
     <orderEntry type="library" name="org.hibernate:hibernate-core:5.2.2.Final" level="project" />
     <orderEntry type="library" name="redis.clients:jedis:2.9.0" level="project" />
+    <orderEntry type="library" name="org.springframework.data:spring-data-redis:1.8.6.RELEASE" level="project" />
   </component>
 </module>

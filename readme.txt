@@ -1,23 +1,61 @@
 整合的spring mvc框架,全java配置
+{
+    开发工具:IntelliJ IDEA 2017.1.5
+    SpringMVC版本:4.3.10
+    hibernate-validator:5.2.5.Final
+    mysql-connector:6.0.6
+}
 
-例子:
+框架操作例子:
 index.jsp
 
-长连接事例:
+长连接例子:
 1.html
 
-推送消息:
-WebSocketEventListener.class
+##表单验证:
+    @Autowired
+    private ValidatorProvider<Article> validatorProvider;
+    validatorProvider.validate(Object);
 
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\Bootstrap.java #启动恒旭
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\app\controller\ #控制器
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\app\view\ #页面显示文件
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\ #配置文件按
+##消息推送:
+    @Autowired
+    private ApplicationEventPublisher publisher;
+    publisher.publishEvent(new ApplicationWebSocketEvent(new TextMessagePojo()));
+
+    @Autowired
+    private IRedisMessageService messageService;
+    messageService.sendMessage(ConstantRedis.CHANNEL,JsonUtil.ObjectToJson(textMessagePojo));
+
+##本地化(默认:Constant.defaultLocale:zh_CN)
+url可以传递:locale=en_US
+locale:key
+en_US:val(对应的语言(lang)文件名的前缀)
+
+默认会获取http请求过来的locale值,如果没有则读取:
+request.getLocale().getLanguage() + "_" + request.getLocale().getCountry();
+
+Application.getInstance(null).getLang(Lang String);
+
+##控制器
+所有的控制器应该遵守IDefaultControllerMethod接口定义,并实现restful标准的方法准则;
+
+#2017-11-09增加Redis pub&sub的接口类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\RedisMessageListenerConfiguration.java //#消息队列配置
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\listener\RedisMessageListener.java #消息监听
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\service\impl\RedisMessageService.java #消息发送逻辑类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\ConstantRedis.java #redis配置文件
+
+#系统核心启动文件
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\Bootstrap.java
+
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\app\controller\ #控制器的目录
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\app\view\ #页面输入的控制器目录
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\ #系统配置文件
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\HibernateConfiguration.java #hibernate数据库配置
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\MybatisConfiguration.java #mybatis数据库配置
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\config\SocketConfiguration.java #socket配置
 
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\Constant.java #常量
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\Constant.java #系统常量
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\ConstantAuthority.java #鉴权配置文件
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\ConstantInit.java #数据库配置文件
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\constant\ConstantRedis.java #Redis配置文件
@@ -109,13 +147,13 @@ D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\basic\IComponent.java
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\basic\IDefaultControllerMethod.java
 
 #事件监听类
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\ApplicationUserEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\ArticleCommentEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\LoginEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\LoginOutEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\UserLogEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\UserTokenEventListener.java
-D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\WebSocketEventListener.java
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\ApplicationUserEventListener.java #文章发布监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\ArticleCommentEventListener.java #文章评论监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\LoginEventListener.java #用户登录消息监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\LoginOutEventListener.java #用户注销消息监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\UserLogEventListener.java #用户日志消息监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\UserTokenEventListener.java #用户token消息监听类
+D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\WebSocketEventListener.java #socket消息监听类
 
 #事件类
 D:\develop\work\IdeaProjects\mymvc\src\com\mymvc\system\bus\event\ApplicationArticleEvent.java

@@ -24,6 +24,7 @@
           <element id="library" level="project" name="commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="org.hibernate:hibernate-core:5.2.2.Final" />
           <element id="library" level="project" name="redis.clients:jedis:2.9.0" />
+          <element id="library" level="project" name="org.springframework.data:spring-data-redis:1.8.6.RELEASE" />
         </element>
       </element>
     </root>

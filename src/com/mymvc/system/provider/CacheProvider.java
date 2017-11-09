@@ -4,6 +4,11 @@ package com.mymvc.system.provider;
 import com.mymvc.system.basic.BasicProvider;
 import com.mymvc.system.provider.handler.CacheMemHandler;
 import com.mymvc.system.annotation.Provider;
+import com.mymvc.system.provider.handler.CacheRedisHandler;
+import com.mymvc.system.utils.DateUtil;
+import org.springframework.data.redis.cache.RedisCache;
+
+import javax.xml.crypto.Data;
 
 /**
  * Created by alan.luo on 2017/8/4.
@@ -11,7 +16,8 @@ import com.mymvc.system.annotation.Provider;
 @Provider
 public class CacheProvider extends BasicProvider {
 
-    protected CacheMemHandler cache;
+//    protected CacheMemHandler cache;
+    protected CacheRedisHandler cache;
 
     /**
      * default expired time is one hour.
@@ -20,7 +26,7 @@ public class CacheProvider extends BasicProvider {
 
     public CacheProvider(){
         super();
-        cache = new CacheMemHandler();
+        cache = new CacheRedisHandler(DateUtil.getTime()+"");
     }
 
     public static CacheProvider getInstance(){

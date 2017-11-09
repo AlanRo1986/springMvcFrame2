@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
         basePackages = Constant.basePackages,
         excludeFilters = @ComponentScan.Filter({RestController.class,Controller.class,Configuration.class /*ServiceHibernate.class*/})
 )
-@Import({WebMvcAdapterConfiguration.class,AsyncConfiguration.class,SocketConfiguration.class,/*MybatisConfiguration.class*/
+@Import({WebMvcAdapterConfiguration.class,AsyncConfiguration.class,SocketConfiguration.class,RedisMessageListenerConfiguration.class,/*MybatisConfiguration.class*/
         HibernateConfiguration.class})
 public class RootContextConfiguration {
 
